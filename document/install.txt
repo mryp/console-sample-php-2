@@ -1,0 +1,43 @@
+1. DBを作成する
+mysql -u root -p
+create database DB名 default character set utf8;
+
+2．ファイル一式を任意の場所に格納する
+mkdir /data/html/test/適当なフォルダ名
+
+3. ファイルをコピーしたフォルダのルートにプロンプトを移動する
+cd /data/html/test/適当なフォルダ名
+
+4. composerをインストールする
+curl -s http://getcomposer.org/installer | php
+
+5. composer を念のためアップデート
+php composer.phar self-update
+
+6. comporser でFuelPHPのCoreをダウンロード開始
+php composer.phar update
+
+7. FuelPHPの初期設定開始
+php oil refine install
+
+8. FuelPHPのSimpleAuthテーブルを作成
+php oil refine migrate --packages=auth
+
+9. SimpleAuthの最初のユーザーを作成
+php oil console
+>> Auth::create_user('ユーザー名', 'パスワード', 'メールアドレス', 3);
+>> exit
+
+10. アプリ用テーブルを作成
+php oil refine migrate
+
+//---------------------------------------------------------
+# アプリ用テーブルを一つ戻すときは下記を使用
+php oil refine migrate:down
+
+# 本番環境ではphpの前に下記をつける
+FUEL_ENV=production 
+
+使用例：
+FUEL_ENV=production php oil refine migrate
+
